@@ -1,6 +1,8 @@
 # SimpleMapper
 Creates dead simple property mappings for C# types
 
+![build status](https://www.bitrise.io/app/c8e79f88c507dd00.svg?token=3lmHZGyGgefyN5nxSVpgjw)
+
 ## What it does
 
 So we all like [AutoMapper](http://automapper.org/), right? Sometimes it's a little bit overkill and not worth the performance cost.
