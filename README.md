@@ -29,4 +29,4 @@ It outputs the code on STDOUT, use ` > SimpleMapper.cs` to pipe it to a file.
 
 ## What still needs to be fixed:
 
-* Support namespaces
+* Build NuGet package
