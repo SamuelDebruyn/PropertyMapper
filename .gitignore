@@ -1,5 +1,9 @@
 
-# Created by https://www.gitignore.io/api/macos,csharp,windows,intellij,visualstudio,xamarinstudio,visualstudiocode
+# Created by https://www.gitignore.io/api/macos,csharp,windows,intellij,visualstudio,xamarinstudio,visualstudiocode,cake
+
+### Cake ###
+tools/*
+!tools/packages.config
 
 ### Csharp ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -554,5 +558,4 @@ obj/
 # By default, sensitive information, such as encrypted password
 # should be stored in the .pubxml.user file.
 
-# End of https://www.gitignore.io/api/macos,csharp,windows,intellij,visualstudio,xamarinstudio,visualstudiocode
-\.vscode/
+# End of https://www.gitignore.io/api/macos,csharp,windows,intellij,visualstudio,xamarinstudio,visualstudiocode,cake
