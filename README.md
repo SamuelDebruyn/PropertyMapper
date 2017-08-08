@@ -1,7 +1,11 @@
 # PropertyMapper
 Creates dead simple property mappings for C# types
 
-![build status](https://www.bitrise.io/app/c8e79f88c507dd00.svg?token=3lmHZGyGgefyN5nxSVpgjw)
+![build status](https://www.bitrise.io/app/c8e79f88c507dd00.svg?token=3lmHZGyGgefyN5nxSVpgjw) [![NuGet](https://img.shields.io/nuget/v/ChipsnCookies.PropertyMapper.svg?label=NuGet)](https://www.nuget.org/packages/ChipsnCookies.PropertyMapper/)
+
+```
+Install-Package ChipsnCookies.PropertyMapper
+```
 
 ## What it does
 
