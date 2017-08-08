@@ -1,9 +1,9 @@
 
 Microsoft Visual Studio Solution File, Format Version 15.00
 # Visual Studio 2017
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMapper.Console", "Console\SimpleMapper.Console.csproj", "{C0136822-CB8D-4F52-9035-05963F1AFB96}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyMapper.Console", "Console\PropertyMapper.Console.csproj", "{C0136822-CB8D-4F52-9035-05963F1AFB96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMapper", "SimpleMapper\SimpleMapper.csproj", "{24BF5E1A-60C7-45BA-B524-75F1A3BD7FDF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyMapper", "PropertyMapper\PropertyMapper.csproj", "{24BF5E1A-60C7-45BA-B524-75F1A3BD7FDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

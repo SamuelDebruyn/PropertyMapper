@@ -5,7 +5,7 @@ using System.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
 
-namespace SimpleMapper.Console
+namespace PropertyMapper.Console
 {
     class Program
     {

@@ -2,14 +2,14 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
 
     <metadata>
-        <id>ChipsnCookies.SimpleMapper</id>
-        <title>SimpleMapper</title>
+        <id>ChipsnCookies.PropertyMapper</id>
+        <title>PropertyMapper</title>
         <version>1.0.0</version>
         <description>Outputs C# to map properties of classes to other classes</description>
         <authors>Samuel Debruyn</authors>
         <owners>Samuel Debruyn</owners>
-        <projectUrl>https://github.com/SamuelDebruyn/SimpleMapper</projectUrl>
-        <licenseUrl>https://raw.githubusercontent.com/SamuelDebruyn/SimpleMapper/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/SamuelDebruyn/PropertyMapper</projectUrl>
+        <licenseUrl>https://raw.githubusercontent.com/SamuelDebruyn/PropertyMapper/master/LICENSE</licenseUrl>
 
         <dependencies>
             <group targetFramework="netstandard1.5">
@@ -21,7 +21,7 @@
     </metadata>
 
     <files>
-        <file src="src/SimpleMapper/bin/Release/netstandard1.5/SimpleMapper.dll" target="lib/netstandard1.5" />
+        <file src="src/PropertyMapper/bin/Release/netstandard1.5/PropertyMapper.dll" target="lib/netstandard1.5" />
     </files>
     
 </package>

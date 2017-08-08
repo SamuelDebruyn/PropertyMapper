@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Text;
 using AutoMapper;
 
-namespace SimpleMapper
+namespace PropertyMapper
 {
     public static class MappingBuilder
     {
@@ -32,7 +32,7 @@ namespace SimpleMapper
 
         static void AppendClasses(IEnumerable<TypeMap> typeMaps, StringBuilder stringBuilder)
         {
-            stringBuilder.AppendLine("public class SimpleMapper: IMapper {");
+            stringBuilder.AppendLine("public class PropertyMapper: IMapper {");
 
             foreach (var typeMap in typeMaps)
             {

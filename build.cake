@@ -5,10 +5,10 @@ Task("Default").Does(() =>
     Information("Running cake script");
 
     Information("Restoring packages");
-    DotNetCoreRestore("src/SimpleMapper.sln");
+    DotNetCoreRestore("src/PropertyMapper.sln");
 
     Information("Building projects");
-    DotNetCoreBuild("src/SimpleMapper.sln", new DotNetCoreBuildSettings()
+    DotNetCoreBuild("src/PropertyMapper.sln", new DotNetCoreBuildSettings()
     {
         Configuration = "Release"
     });

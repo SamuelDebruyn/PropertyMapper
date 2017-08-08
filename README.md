@@ -1,4 +1,4 @@
-# SimpleMapper
+# PropertyMapper
 Creates dead simple property mappings for C# types
 
 ![build status](https://www.bitrise.io/app/c8e79f88c507dd00.svg?token=3lmHZGyGgefyN5nxSVpgjw)
@@ -15,7 +15,7 @@ This code generates that class. It uses AutoMapper underneath so you can enjoy s
 
 * this interface: `public interface IMapper<TSource, TDestination>{ TDestination Map(TSource instance); };`
 * an interface `IMapper` implementing the generic `IMapper` for all the mappings you've defined
-* a class called `SimpleMapper` with `Map` methods for all your mappings so that it implements the non-generic `IMapper` interface
+* a class called `PropertyMapper` with `Map` methods for all your mappings so that it implements the non-generic `IMapper` interface
 
 ## How can you use it
 

@@ -3,12 +3,12 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp1.1</TargetFramework>
-    <RootNamespace>SimpleMapper.Console</RootNamespace>
+    <RootNamespace>PropertyMapper.Console</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="2.16.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimpleMapper\SimpleMapper.csproj" />
+    <ProjectReference Include="..\PropertyMapper\PropertyMapper.csproj" />
   </ItemGroup>
 </Project>
