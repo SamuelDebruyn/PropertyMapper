@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+
+    <metadata>
+        <id>ChipsnCookies.SimpleMapper</id>
+        <title>SimpleMapper</title>
+        <version>1.0.0</version>
+        <description>Outputs C# to map properties of classes to other classes</description>
+        <authors>Samuel Debruyn</authors>
+        <owners>Samuel Debruyn</owners>
+        <projectUrl>https://github.com/SamuelDebruyn/SimpleMapper</projectUrl>
+        <licenseUrl>https://raw.githubusercontent.com/SamuelDebruyn/SimpleMapper/master/LICENSE</licenseUrl>
+
+        <dependencies>
+            <group targetFramework="netstandard1.5">
+                <dependency id="AutoMapper" version="[6.1.1, )" />
+                <dependency id="NETStandard.Library" version="[1.6.1, )" />
+            </group>
+        </dependencies>
+
+    </metadata>
+
+    <files>
+        <file src="src/SimpleMapper/bin/Release/netstandard1.5/SimpleMapper.dll" target="lib/netstandard1.5" />
+    </files>
+    
+</package>

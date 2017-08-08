@@ -2,10 +2,14 @@ var target = Argument("target", "Default");
 
 Task("Default").Does(() => 
 {
-    DotNetCoreRestore();
-    DotNetCorePack("SimpleMapper.csproj", new DotNetCorePackSettings
+    DotNetCoreRestore("src/SimpleMapper.sln");
+    DotNetCoreBuild("src/SimpleMapper.sln", new DotNetCoreBuildSettings()
     {
-        VersionSuffix = "alpha" + EnvironmentVariable("BITRISE_BUILD_NUMBER"),
+        Configuration = "Release"
+    });
+    NuGetPack("package.nuspec", new NuGetPackSettings
+    {
+        Version = "1.0.EnvironmentVariable("BITRISE_BUILD_NUMBER")",
         OutputDirectory = new DirectoryPath(EnvironmentVariable("BITRISE_DEPLOY_DIR"))
     });
 });

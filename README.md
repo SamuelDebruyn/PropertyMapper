@@ -17,16 +17,6 @@ This code generates that class. It uses AutoMapper underneath so you can enjoy s
 * an interface `IMapper` implementing the generic `IMapper` for all the mappings you've defined
 * a class called `SimpleMapper` with `Map` methods for all your mappings so that it implements the non-generic `IMapper` interface
 
-## How do you use it
+## How can you use it
 
-1. Create a CSV-file (delimiter is `;` or change it in the source code of `Program.cs`) with source types and destination types. Just use the class names, no namespaces required.
-1. Install the [.NET Core SDK](https://www.microsoft.com/net/download/core#/sdk)
-1. Run `dotnet restore`
-1. Put all the required classes in the same directory as this code
-1. Run `dotnet run path_to_your.csv`
-
-It outputs the code on STDOUT, use ` > SimpleMapper.cs` to pipe it to a file.
-
-## What still needs to be fixed:
-
-* Build NuGet package
+The source includes a .NET Core app that can read a CSV file with your mappings. There's also a NuGet package that has the same functionality exposed as methods.

@@ -5,7 +5,7 @@ using System.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
 
-namespace SimpleMapper
+namespace SimpleMapper.Console
 {
     class Program
     {
@@ -16,7 +16,7 @@ namespace SimpleMapper
         {
             var givenTypeMaps = BuildTypeMaps(args);
             var output = MappingBuilder.BuildMappings(givenTypeMaps, false);
-            Console.WriteLine(output);
+            System.Console.WriteLine(output);
         }
 
         static Dictionary<string, string> BuildTypeMaps(IEnumerable<string> args)
