@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyMapper.Console", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyMapper", "PropertyMapper\PropertyMapper.csproj", "{24BF5E1A-60C7-45BA-B524-75F1A3BD7FDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyMapper.Sample", "Sample\PropertyMapper.Sample.csproj", "{F938ADBF-6B73-4A2C-9BFD-CBB04017F934}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,5 +21,9 @@ Global
 		{24BF5E1A-60C7-45BA-B524-75F1A3BD7FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24BF5E1A-60C7-45BA-B524-75F1A3BD7FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24BF5E1A-60C7-45BA-B524-75F1A3BD7FDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F938ADBF-6B73-4A2C-9BFD-CBB04017F934}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F938ADBF-6B73-4A2C-9BFD-CBB04017F934}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F938ADBF-6B73-4A2C-9BFD-CBB04017F934}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F938ADBF-6B73-4A2C-9BFD-CBB04017F934}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -36,7 +36,7 @@ namespace PropertyMapper
 
             foreach (var typeMap in typeMaps)
             {
-                stringBuilder.AppendLine($"public {typeMap.DestinationType.FullName} Map({typeMap.SourceType.FullName} instance) => new {typeMap.DestinationType.FullName}");
+                stringBuilder.AppendLine($"public global::{typeMap.DestinationType.FullName} Map(global::{typeMap.SourceType.FullName} instance) => new global::{typeMap.DestinationType.FullName}");
                 stringBuilder.AppendLine("{");
                 var propertyMaps = typeMap.GetPropertyMaps();
 
@@ -57,7 +57,7 @@ namespace PropertyMapper
             stringBuilder.Append("public interface IMapper:");
             foreach (var typeMap in typeMaps)
             {
-                stringBuilder.Append($" IMapper<{typeMap.SourceType.FullName}, {typeMap.DestinationType.FullName}>,");
+                stringBuilder.Append($" IMapper<global::{typeMap.SourceType.FullName}, global::{typeMap.DestinationType.FullName}>,");
             }
 
             stringBuilder.Length--;
@@ -66,7 +66,7 @@ namespace PropertyMapper
 
             foreach (var typeMap in typeMaps)
             {
-                stringBuilder.AppendLine($"{typeMap.DestinationType.FullName} Map({typeMap.SourceType.FullName} instance);");
+                stringBuilder.AppendLine($"global::{typeMap.DestinationType.FullName} Map(global::{typeMap.SourceType.FullName} instance);");
             }
 
             stringBuilder.AppendLine("}");
