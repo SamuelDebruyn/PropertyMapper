@@ -16,7 +16,7 @@ Task("Default").Does(() =>
     Information("Creating NuGet package");
     NuGetPack("package.nuspec", new NuGetPackSettings
     {
-        Version = "1.0.0+" + EnvironmentVariable("BITRISE_BUILD_NUMBER"),
+        Version = EnvironmentVariable("MAIN_VERSION") + "-build" + EnvironmentVariable("BITRISE_BUILD_NUMBER"),
         OutputDirectory = new DirectoryPath(EnvironmentVariable("BITRISE_DEPLOY_DIR"))
     });
 });
