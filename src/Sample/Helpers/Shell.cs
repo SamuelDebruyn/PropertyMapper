@@ -1,25 +1,26 @@
 ﻿using System.Diagnostics;
 
-namespace PropertyMapper.Sample
+namespace PropertyMapper.Sample.Helpers
 {
     public static class Shell
     {
         public static string Bash(this string cmd)
         {
             var escapedArgs = cmd.Replace("\"", "\\\"");
-            string result = Run("/bin/bash", $"-c \"{escapedArgs}\"");
+            var result = Run("/bin/bash", $"-c \"{escapedArgs}\"");
             return result;
         }
 
         public static string Bat(this string cmd)
         {
             var escapedArgs = cmd.Replace("\"", "\\\"");
-            string result = Run("cmd.exe", $"/c \"{escapedArgs}\"");
+            var result = Run("cmd.exe", $"/c \"{escapedArgs}\"");
             return result;
         }
 
-        static string Run (string filename, string arguments){
-            var process = new Process()
+        static string Run(string filename, string arguments)
+        {
+            var process = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
@@ -27,11 +28,11 @@ namespace PropertyMapper.Sample
                     Arguments = arguments,
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
-                    CreateNoWindow = false,
+                    CreateNoWindow = false
                 }
             };
             process.Start();
-            string result = process.StandardOutput.ReadToEnd();
+            var result = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
             return result;
         }

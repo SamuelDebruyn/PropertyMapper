@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using CsvHelper;
@@ -7,7 +6,7 @@ using CsvHelper.Configuration;
 
 namespace PropertyMapper.Console
 {
-    class Program
+    internal class Program
     {
         const string DefaultMappingsCsv = "mappings.csv";
         const string Delimiter = ";";
@@ -27,7 +26,8 @@ namespace PropertyMapper.Console
             var path = string.IsNullOrEmpty(givenPath) ? DefaultMappingsCsv : givenPath;
             using (var fileReader = File.OpenText(path))
             {
-                using (var csvReader = new CsvReader(fileReader, new CsvConfiguration{HasHeaderRecord = false, SkipEmptyRecords = true, Delimiter = Delimiter}))
+                using (var csvReader = new CsvReader(fileReader,
+                    new CsvConfiguration {HasHeaderRecord = false, SkipEmptyRecords = true, Delimiter = Delimiter}))
                 {
                     while (csvReader.Read())
                     {

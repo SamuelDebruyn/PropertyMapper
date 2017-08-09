@@ -17,9 +17,11 @@ This code generates that class. It uses AutoMapper underneath so you can enjoy s
 
 ## What it generates
 
-* this interface: `public interface IMapper<TSource, TDestination>{ TDestination Map(TSource instance); };`
+* this interface: `public interface IMapper<in TSource, out TDestination> { TDestination Map(TSource instance); }`
 * an interface `IMapper` implementing the generic `IMapper` for all the mappings you've defined
 * a class called `PropertyMapper` with `Map` methods for all your mappings so that it implements the non-generic `IMapper` interface
+
+Note that you need to use the `PropertyMapper` instance as `IMapper` because all the map methods have the same name and are implemented explicitly.
 
 ## How can you use it
 

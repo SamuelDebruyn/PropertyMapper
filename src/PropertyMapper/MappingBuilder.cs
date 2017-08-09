@@ -1,4 +1,4 @@
-﻿﻿using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -6,6 +6,12 @@ using AutoMapper;
 
 namespace PropertyMapper
 {
+    internal static class Constants
+    {
+        internal const string InterfaceName = "IMapper";
+        internal const string ClassName = "PropertyMapper";
+    }
+
     public static class MappingBuilder
     {
         public static string BuildMappings(MapperConfiguration config)
@@ -14,7 +20,8 @@ namespace PropertyMapper
             return BuildOutput(typeMaps);
         }
 
-        public static string BuildMappings(Dictionary<string, string> givenTypeMaps, bool scanReferencedAssembliesForTypes = true)
+        public static string BuildMappings(Dictionary<string, string> givenTypeMaps,
+            bool scanReferencedAssembliesForTypes = true)
         {
             var config = BuildMapperConfig(givenTypeMaps, scanReferencedAssembliesForTypes);
             return BuildMappings(config);
@@ -32,44 +39,37 @@ namespace PropertyMapper
 
         static void AppendClasses(IEnumerable<TypeMap> typeMaps, StringBuilder stringBuilder)
         {
-            stringBuilder.AppendLine("public class PropertyMapper: IMapper {");
+            stringBuilder.AppendLine($"public class {Constants.ClassName}: {Constants.InterfaceName}");
+            stringBuilder.AppendLine("{");
 
             foreach (var typeMap in typeMaps)
             {
-                stringBuilder.AppendLine($"public global::{typeMap.DestinationType.FullName} Map(global::{typeMap.SourceType.FullName} instance) => new global::{typeMap.DestinationType.FullName}");
+                stringBuilder.AppendLine(
+                    $"global::{typeMap.DestinationType.FullName} {Constants.InterfaceName}<global::{typeMap.SourceType.FullName}, global::{typeMap.DestinationType.FullName}>.Map(global::{typeMap.SourceType.FullName} instance) => new global::{typeMap.DestinationType.FullName}");
                 stringBuilder.AppendLine("{");
                 var propertyMaps = typeMap.GetPropertyMaps();
 
                 foreach (var propertyMap in propertyMaps)
-                {
-                    stringBuilder.AppendLine($"{propertyMap.SourceMember.Name} = instance.{propertyMap.DestinationProperty.Name},");
-                }
+                    stringBuilder.AppendLine(
+                        $"{propertyMap.SourceMember.Name} = instance.{propertyMap.DestinationProperty.Name},");
                 stringBuilder.AppendLine("};");
             }
 
             stringBuilder.AppendLine("}");
         }
 
-        static void AppendInterfaces(ICollection<TypeMap> typeMaps, StringBuilder stringBuilder)
+        static void AppendInterfaces(IEnumerable<TypeMap> typeMaps, StringBuilder stringBuilder)
         {
-            stringBuilder.AppendLine("public interface IMapper<TSource, TDestination>{ TDestination Map(TSource instance); }");
+            stringBuilder.AppendLine($"public interface {Constants.InterfaceName}<in TSource, out TDestination>");
+            stringBuilder.AppendLine("{ TDestination Map(TSource instance); }");
+            stringBuilder.Append($"public interface {Constants.InterfaceName}:");
 
-            stringBuilder.Append("public interface IMapper:");
             foreach (var typeMap in typeMaps)
-            {
-                stringBuilder.Append($" IMapper<global::{typeMap.SourceType.FullName}, global::{typeMap.DestinationType.FullName}>,");
-            }
+                stringBuilder.Append(
+                    $" {Constants.InterfaceName}<global::{typeMap.SourceType.FullName}, global::{typeMap.DestinationType.FullName}>,");
 
             stringBuilder.Length--;
-
-            stringBuilder.AppendLine("{");
-
-            foreach (var typeMap in typeMaps)
-            {
-                stringBuilder.AppendLine($"global::{typeMap.DestinationType.FullName} Map(global::{typeMap.SourceType.FullName} instance);");
-            }
-
-            stringBuilder.AppendLine("}");
+            stringBuilder.AppendLine("{ }");
         }
 
         static TypeMap[] BuildCompiledMaps(IConfigurationProvider config)
@@ -81,20 +81,24 @@ namespace PropertyMapper
             return mapper.ConfigurationProvider.GetAllTypeMaps();
         }
 
-        static MapperConfiguration BuildMapperConfig(Dictionary<string, string> givenTypeMaps, bool scanReferencedAssembliesForTypes = false)
+        static MapperConfiguration BuildMapperConfig(Dictionary<string, string> givenTypeMaps,
+            bool scanReferencedAssembliesForTypes = false)
         {
             var assemblyTypes = (scanReferencedAssembliesForTypes
-                ? Assembly.GetEntryAssembly().GetReferencedAssemblies().Select(Assembly.Load).SelectMany(a => a.DefinedTypes)
+                ? Assembly.GetEntryAssembly().GetReferencedAssemblies().Select(Assembly.Load)
+                    .SelectMany(a => a.DefinedTypes)
                 : Assembly.GetEntryAssembly().DefinedTypes).ToList();
 
-            var usingFullNames = givenTypeMaps.SelectMany(kvp => new []{kvp.Key, kvp.Value}).Any(s => s.Contains("."));
+            var usingFullNames = givenTypeMaps.SelectMany(kvp => new[] {kvp.Key, kvp.Value}).Any(s => s.Contains("."));
 
             return new MapperConfiguration(cfg =>
             {
                 foreach (var givenTypeMap in givenTypeMaps)
                 {
-                    var source = assemblyTypes.First(ti => usingFullNames ? ti.FullName.Contains(givenTypeMap.Key) : ti.Name.Equals(givenTypeMap.Key));
-                    var destination = assemblyTypes.First(ti => usingFullNames ? ti.FullName.Contains(givenTypeMap.Value): ti.Name.Equals(givenTypeMap.Value));
+                    var source = assemblyTypes.First(ti =>
+                        usingFullNames ? ti.FullName.Contains(givenTypeMap.Key) : ti.Name.Equals(givenTypeMap.Key));
+                    var destination = assemblyTypes.First(ti =>
+                        usingFullNames ? ti.FullName.Contains(givenTypeMap.Value) : ti.Name.Equals(givenTypeMap.Value));
 
                     cfg.CreateMap(source.AsType(), destination.AsType());
                 }

@@ -5,7 +5,7 @@ namespace PropertyMapper.Sample.Results
 {
     public class PropertyMapper : IMapper
     {
-        public PersonExample1 Map(Person instance) => new PersonExample1
+        PersonExample1 IMapper<Person, PersonExample1>.Map(Person instance) => new PersonExample1
         {
             Gender = instance.Gender,
             Email = instance.Email,
