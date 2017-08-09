@@ -560,3 +560,5 @@ obj/
 
 # End of https://www.gitignore.io/api/macos,csharp,windows,intellij,visualstudio,xamarinstudio,visualstudiocode,cake
 \.vscode/
+
+tools/
