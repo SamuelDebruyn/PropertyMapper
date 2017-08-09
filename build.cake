@@ -13,10 +13,18 @@ Task("Default").Does(() =>
         Configuration = "Release"
     });
 
-    Information("Creating NuGet package");
+    Information("Creating NuGet packages");
+
     NuGetPack("package.nuspec", new NuGetPackSettings
     {
         Version = EnvironmentVariable("MAIN_VERSION") + "-build" + EnvironmentVariable("BITRISE_BUILD_NUMBER"),
+        OutputDirectory = new DirectoryPath(EnvironmentVariable("BITRISE_DEPLOY_DIR")),
+        ReleaseNotes = new List<string>{EnvironmentVariable("RELEASE_NOTES")}
+    });
+
+    NuGetPack("package.nuspec", new NuGetPackSettings
+    {
+        Version = EnvironmentVariable("MAIN_VERSION"),
         OutputDirectory = new DirectoryPath(EnvironmentVariable("BITRISE_DEPLOY_DIR")),
         ReleaseNotes = new List<string>{EnvironmentVariable("RELEASE_NOTES")}
     });
