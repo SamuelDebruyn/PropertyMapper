@@ -13,7 +13,13 @@ namespace PropertyMapper.Sample
             var mappingResult = MappingBuilder.BuildMappings(new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Person, PersonExample1>();
-            }));
+                cfg.CreateMap<Location, LocationExample1>();
+                cfg.CreateMap<Person, PersonExample2>();
+                cfg.CreateMap<Person, PersonExample3>();
+                cfg.CreateMap<Id, IdExample1>();
+                cfg.CreateMap<Person, PersonExample4>();
+                cfg.CreateMap<Person, PersonExample5>();
+            }), false);
 
             Console.WriteLine(mappingResult);
             Clipboard.Copy(mappingResult);

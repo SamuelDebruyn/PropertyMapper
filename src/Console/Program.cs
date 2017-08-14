@@ -14,7 +14,7 @@ namespace PropertyMapper.Console
         static void Main(string[] args)
         {
             var givenTypeMaps = BuildTypeMaps(args);
-            var output = MappingBuilder.BuildMappings(givenTypeMaps, false);
+            var output = MappingBuilder.BuildMappings(givenTypeMaps, false, false);
             System.Console.WriteLine(output);
         }
 

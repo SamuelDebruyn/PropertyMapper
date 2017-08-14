@@ -562,3 +562,5 @@ obj/
 \.vscode/
 
 tools/
+
+src/\.droidres/

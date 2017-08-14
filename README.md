@@ -26,3 +26,8 @@ Note that you need to use the `PropertyMapper` instance as `IMapper` because all
 ## How can you use it
 
 The source includes a .NET Core app that can read a CSV file with your mappings. There's also a NuGet package that has the same functionality exposed as methods.
+
+## Limitations (not supported)
+
+* Non default constructors
+* Non public setters
