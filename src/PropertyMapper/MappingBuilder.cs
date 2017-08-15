@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -40,7 +41,8 @@ namespace PropertyMapper
             return stringBuilder.ToString();
         }
 
-        static void AppendClasses(IEnumerable<TypeMap> typeMaps, StringBuilder stringBuilder, bool enableStringCopy = false)
+        static void AppendClasses(IEnumerable<TypeMap> typeMaps, StringBuilder stringBuilder,
+            bool enableStringCopy = false)
         {
             stringBuilder.AppendLine($"public class {Constants.ClassName}: {Constants.InterfaceName}");
             stringBuilder.AppendLine("{");
@@ -53,9 +55,11 @@ namespace PropertyMapper
             stringBuilder.AppendLine("}");
         }
 
-        static void AppendClassMapping(TypeMap typeMap, StringBuilder stringBuilder, IEnumerable<TypeMap> parentTypeMaps, bool enableStringCopy = false)
+        static void AppendClassMapping(TypeMap typeMap, StringBuilder stringBuilder,
+            IEnumerable<TypeMap> parentTypeMaps, bool enableStringCopy = false)
         {
-            stringBuilder.AppendLine($"global::{typeMap.DestinationType.FullName} {Constants.InterfaceName}<global::{typeMap.SourceType.FullName}, global::{typeMap.DestinationType.FullName}>.{Constants.MapMethodName}(global::{typeMap.SourceType.FullName} {Constants.InstanceName}) => new global::{typeMap.DestinationType.FullName}");
+            stringBuilder.AppendLine(
+                $"global::{typeMap.DestinationType.FullName} {Constants.InterfaceName}<global::{typeMap.SourceType.FullName}, global::{typeMap.DestinationType.FullName}>.{Constants.MapMethodName}(global::{typeMap.SourceType.FullName} {Constants.InstanceName}) => new global::{typeMap.DestinationType.FullName}");
             stringBuilder.AppendLine("{");
             var propertyMaps = typeMap.GetPropertyMaps();
 
@@ -67,29 +71,67 @@ namespace PropertyMapper
             stringBuilder.AppendLine("};");
         }
 
-        static void AppendPropertyMapping(StringBuilder stringBuilder, PropertyMap propertyMap, IEnumerable<TypeMap> parentTypeMaps, bool enableStringCopy = false)
+        static void AppendPropertyMapping(StringBuilder stringBuilder, PropertyMap propertyMap,
+            IEnumerable<TypeMap> parentTypeMaps, bool enableStringCopy = false)
         {
             string valueExp;
-            
 
-            if ((propertyMap.SourceType.GetTypeInfo().IsPrimitive && propertyMap.DestinationPropertyType.GetTypeInfo().IsPrimitive)
-                || (propertyMap.SourceType == typeof(string) && propertyMap.DestinationPropertyType == typeof(string) && !enableStringCopy)
+
+            if ((propertyMap.SourceType.GetTypeInfo().IsPrimitive &&
+                 propertyMap.DestinationPropertyType.GetTypeInfo().IsPrimitive)
+                || (propertyMap.SourceType == typeof(string) && propertyMap.DestinationPropertyType == typeof(string) &&
+                    !enableStringCopy)
                 || (propertyMap.SourceType == typeof(object) && propertyMap.DestinationPropertyType == typeof(object)))
             {
                 valueExp = $"{Constants.InstanceName}{GetSourceMembersPath(propertyMap)}";
             }
-            else if (enableStringCopy && propertyMap.SourceType == typeof(string) && propertyMap.DestinationPropertyType == typeof(string))
+            else if (enableStringCopy && propertyMap.SourceType == typeof(string) &&
+                     propertyMap.DestinationPropertyType == typeof(string))
             {
                 valueExp = $"new string({Constants.InstanceName}{GetSourceMembersPath(propertyMap)}.ToCharArray())";
             }
-            else
+            else if (propertyMap.SourceType.GetTypeInfo().IsEnum &&
+                     propertyMap.DestinationPropertyType.GetTypeInfo().IsEnum)
             {
-                if (!parentTypeMaps.Any(pt => pt.SourceType == propertyMap.SourceType && pt.DestinationType == propertyMap.DestinationPropertyType))
+                valueExp =
+                    $"(global::{propertyMap.DestinationPropertyType.FullName})(int){Constants.InstanceName}{GetSourceMembersPath(propertyMap)}";
+            }
+            else if (propertyMap.SourceType.GetTypeInfo().ImplementedInterfaces.Contains(typeof(IEnumerable)) &&
+                     propertyMap.DestinationPropertyType.GetTypeInfo().ImplementedInterfaces
+                         .Contains(typeof(IEnumerable)))
+            {
+                var genericSourceType = propertyMap.SourceType.GenericTypeArguments.FirstOrDefault();
+                var genericDestinationType = propertyMap.DestinationPropertyType.GenericTypeArguments.FirstOrDefault();
+                if (genericSourceType == null || genericDestinationType == null)
                 {
-                    throw new ArgumentException($"The mapping from property {propertyMap.SourceMember.Name} to property {propertyMap.DestinationProperty.Name} requires a type map from {propertyMap.SourceType.FullName} to {propertyMap.DestinationPropertyType.FullName}.");
+                    throw new ArgumentException($"Generics are required in {propertyMap.SourceMember.Name} ({propertyMap.TypeMap.SourceType.FullName}) and {propertyMap.DestinationProperty.Name} ({propertyMap.TypeMap.DestinationType.FullName}).");
                 }
                 
-                valueExp = $"(({Constants.InterfaceName}<global::{propertyMap.SourceType.FullName}, global::{propertyMap.DestinationPropertyType.FullName}>)this).{Constants.MapMethodName}({Constants.InstanceName}{GetSourceMembersPath(propertyMap)})";
+                if (!parentTypeMaps.Any(pt =>
+                    pt.SourceType == genericSourceType &&
+                    pt.DestinationType == genericDestinationType))
+                {
+                    throw new ArgumentException(
+                        $"The mapping from property {propertyMap.SourceMember.Name} to property {propertyMap.DestinationProperty.Name} requires a type map from {genericSourceType.FullName} to {genericDestinationType.FullName}.");
+                }
+                
+                
+                var destinationGenerics = $"<global::{genericDestinationType.FullName}>";
+
+                valueExp = $"new global::{propertyMap.DestinationPropertyType.GetNameWithoutGenericArity()}{destinationGenerics}(System.Linq.Enumerable.Select({Constants.InstanceName}{GetSourceMembersPath(propertyMap)}, x => (({Constants.InterfaceName}<global::{genericSourceType.FullName}, global::{genericDestinationType.FullName}>)this).{Constants.MapMethodName}(x)))";
+            }
+            else
+            {
+                if (!parentTypeMaps.Any(pt =>
+                    pt.SourceType == propertyMap.SourceType &&
+                    pt.DestinationType == propertyMap.DestinationPropertyType))
+                {
+                    throw new ArgumentException(
+                        $"The mapping from property {propertyMap.SourceMember.Name} to property {propertyMap.DestinationProperty.Name} requires a type map from {propertyMap.SourceType.FullName} to {propertyMap.DestinationPropertyType.FullName}.");
+                }
+
+                valueExp =
+                    $"(({Constants.InterfaceName}<global::{propertyMap.SourceType.FullName}, global::{propertyMap.DestinationPropertyType.FullName}>)this).{Constants.MapMethodName}({Constants.InstanceName}{GetSourceMembersPath(propertyMap)})";
             }
 
             stringBuilder.AppendLine($"{propertyMap.DestinationProperty.Name} = {valueExp},");
@@ -98,12 +140,12 @@ namespace PropertyMapper
         static string GetSourceMembersPath(PropertyMap propertyMap)
         {
             var inlineBuilder = new StringBuilder();
-            
+
             foreach (var member in propertyMap.SourceMembers)
             {
                 inlineBuilder.Append("." + member.Name);
             }
-            
+
             return inlineBuilder.ToString();
         }
 
@@ -154,6 +196,13 @@ namespace PropertyMapper
                     cfg.CreateMap(source.AsType(), destination.AsType());
                 }
             });
+        }
+
+        static string GetNameWithoutGenericArity(this Type type)
+        {
+            var name = type.FullName;
+            var index = name.IndexOf('`');
+            return index == -1 ? name : name.Substring(0, index);
         }
     }
 }

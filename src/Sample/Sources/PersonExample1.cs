@@ -1,6 +1,6 @@
 ﻿namespace PropertyMapper.Sample.Sources
 {
-    public class Person
+    public class PersonExample1
     {
         public string Gender { get; set; }
         public Name Name { get; set; }
