@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using CsvHelper;
 using CsvHelper.Configuration;
+using System.Reflection;
 
 namespace PropertyMapper.Console
 {
@@ -14,7 +15,7 @@ namespace PropertyMapper.Console
         static void Main(string[] args)
         {
             var givenTypeMaps = BuildTypeMaps(args);
-            var output = MappingBuilder.BuildMappings(givenTypeMaps, false, false);
+            var output = MappingBuilder.BuildMappings(givenTypeMaps, typeof(Program).GetTypeInfo().Assembly, false);
             System.Console.WriteLine(output);
         }
 
