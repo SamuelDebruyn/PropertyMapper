@@ -21,7 +21,7 @@
     </metadata>
 
     <files>
-        <file src="src/PropertyMapper/bin/Release/netstandard1.5/PropertyMapper.dll" target="lib/netstandard1.3" />
+        <file src="src/PropertyMapper/bin/Release/netstandard1.3/PropertyMapper.dll" target="lib/netstandard1.3" />
     </files>
     
 </package>
