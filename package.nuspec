@@ -12,7 +12,7 @@
         <licenseUrl>https://raw.githubusercontent.com/SamuelDebruyn/PropertyMapper/master/LICENSE</licenseUrl>
 
         <dependencies>
-            <group targetFramework="netstandard1.5">
+            <group targetFramework="netstandard1.3">
                 <dependency id="AutoMapper" version="[6.1.1, )" />
                 <dependency id="NETStandard.Library" version="[1.6.1, )" />
             </group>
@@ -21,7 +21,7 @@
     </metadata>
 
     <files>
-        <file src="src/PropertyMapper/bin/Release/netstandard1.5/PropertyMapper.dll" target="lib/netstandard1.5" />
+        <file src="src/PropertyMapper/bin/Release/netstandard1.5/PropertyMapper.dll" target="lib/netstandard1.3" />
     </files>
     
 </package>
