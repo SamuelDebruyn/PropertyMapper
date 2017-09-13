@@ -8,7 +8,7 @@ using AutoMapper;
 
 namespace PropertyMapper
 {
-    internal static class Constants
+    static class Constants
     {
         internal const string InterfaceName = "IMapper";
         internal const string ClassName = "PropertyMapper";
@@ -25,9 +25,9 @@ namespace PropertyMapper
         }
 
         public static string BuildMappings(Dictionary<string, string> givenTypeMaps,
-            bool scanReferencedAssembliesForTypes = true, bool enableStringCopy = false)
+            Assembly assemblyContainingTypes, bool enableStringCopy = false)
         {
-            var config = BuildMapperConfig(givenTypeMaps, scanReferencedAssembliesForTypes);
+            var config = BuildMapperConfig(givenTypeMaps, assemblyContainingTypes);
             return BuildMappings(config, enableStringCopy);
         }
 
@@ -174,13 +174,9 @@ namespace PropertyMapper
             return mapper.ConfigurationProvider.GetAllTypeMaps();
         }
 
-        static MapperConfiguration BuildMapperConfig(Dictionary<string, string> givenTypeMaps,
-            bool scanReferencedAssembliesForTypes = false)
+        static MapperConfiguration BuildMapperConfig(Dictionary<string, string> givenTypeMaps, Assembly assemblyContainingTypes)
         {
-            var assemblyTypes = (scanReferencedAssembliesForTypes
-                ? Assembly.GetEntryAssembly().GetReferencedAssemblies().Select(Assembly.Load)
-                    .SelectMany(a => a.DefinedTypes)
-                : Assembly.GetEntryAssembly().DefinedTypes).ToList();
+            var assemblyTypes = assemblyContainingTypes.DefinedTypes.ToList();
 
             var usingFullNames = givenTypeMaps.SelectMany(kvp => new[] {kvp.Key, kvp.Value}).Any(s => s.Contains("."));
 
